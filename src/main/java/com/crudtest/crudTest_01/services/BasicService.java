@@ -30,7 +30,7 @@ public class BasicService {
            studentRepository.findById(id);
            return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student doesn't exist");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student doesn't exist");
     }
 
     public ResponseEntity update(Long id, Student student) {
@@ -40,7 +40,7 @@ public class BasicService {
             studentRepository.save(student);
             return ResponseEntity.status(HttpStatus.OK).build();
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student doesn't exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student doesn't exist");
         }
     }
 
