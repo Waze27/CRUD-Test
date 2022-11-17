@@ -24,13 +24,13 @@ public class BasicService {
         return studentRepository.findAll();
     }
 
-    public Student readOne(Long id) {
+    public ResponseEntity readOne(Long id) {
         Optional<Student> findStudent = studentRepository.findById(id);
-        Student student = new Student();
         if (findStudent.isPresent()) {
-            student = studentRepository.findById(id).get();
+           studentRepository.findById(id);
+           return ResponseEntity.status(HttpStatus.OK).build();
         }
-        return studentRepository.save(student);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Student doesn't exist");
     }
 
     public ResponseEntity update(Long id, Student student) {
