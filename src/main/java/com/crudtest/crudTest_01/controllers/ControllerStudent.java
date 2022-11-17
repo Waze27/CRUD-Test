@@ -1,48 +1,38 @@
 package com.crudtest.crudTest_01.controllers;
 
 import com.crudtest.crudTest_01.entities.Student;
-import com.crudtest.crudTest_01.repositories.StudentRepository;
 import com.crudtest.crudTest_01.services.BasicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
 public class ControllerStudent {
 
     @Autowired
-    private StudentRepository studentRepository;
-
-    @Autowired
     private BasicService basicService;
 
     @PostMapping("")
     public Student createStudent(@RequestBody Student student) {
-        return studentRepository.save(student);
+        return basicService.create(student);
     }
 
     @GetMapping("")
     public List<Student> getStudents() {
-        return studentRepository.findAll();
+        return basicService.readAll();
     }
 
     @GetMapping("/{id}")
     public Student getStudent(@PathVariable long id) {
-        Optional<Student> findStudent = studentRepository.findById(id);
-        if(findStudent.isPresent()){
-            return findStudent.get();
-        } else {
-            return null;
-        }
+        return basicService.readOne(id);
     }
 
     @PutMapping("/{id}")
-    public Student editStudent(@PathVariable long id, @RequestBody Student student) {
-        student.setId(id);
-        return studentRepository.save(student);
+    public ResponseEntity editStudent(@PathVariable long id, @RequestBody Student student) {
+        return basicService.update(id, student);
     }
 
     @PutMapping("/{id}/status")
@@ -52,6 +42,6 @@ public class ControllerStudent {
 
     @DeleteMapping("/{id}")
     public void deleteStudent(@PathVariable long id) {
-        studentRepository.deleteById(id);
+        basicService.delete(id);
     }
 }
